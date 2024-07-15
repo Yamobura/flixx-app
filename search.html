@@ -36,7 +36,6 @@
     <!-- Search Movies -->
     <section class="search">
       <div class="container">
-        <div id="alert"></div>
         <form action="/search.html" class="search-form">
           <div class="search-radio">
             <input type="radio" id="movie" name="type" value="movie" checked />
@@ -59,9 +58,14 @@
       </div>
     </section>
 
+    <div id="alert">
+      <!-- alert message -->
+    </div>
+
     <!-- Search Results -->
     <section id="search-results-wrapper" class="container">
       <heading id="search-results-heading"></heading>
+
       <div id="search-results" class="grid">
         <!-- search results go here -->
       </div>
@@ -72,20 +76,7 @@
 
     <!-- Footer -->
     <footer class="main-footer">
-      <div class="container">
-        <div class="logo"><span>FLIXX</span></div>
-        <div class="social-links">
-          <a href="https://www.facebook.com" target="_blank"
-            ><i class="fab fa-facebook-f"></i
-          ></a>
-          <a href="https://www.twitter.com" target="_blank"
-            ><i class="fab fa-twitter"></i
-          ></a>
-          <a href="https://www.instagram.com" target="_blank"
-            ><i class="fab fa-instagram"></i
-          ></a>
-        </div>
-      </div>
+      <!-- inner HTML from ../layout/footer.html -->
     </footer>
 
     <div class="spinner"></div>

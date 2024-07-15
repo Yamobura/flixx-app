@@ -81,6 +81,8 @@ const global = {
 
   //displaying movie details
   async function displayMovieDetails ()  {
+    const prevPage = document.referrer;
+    
     const movieId = new URLSearchParams(window.location.search).get('id');
 
     const movie = await fetchAPIData(`movie/${movieId}`);
@@ -91,6 +93,11 @@ const global = {
   const div = document.createElement('div');
 
   div.innerHTML = `
+  <div class="back">
+  <a class="btn" href="${prevPage.includes('search.html?') ? 'javascript:history.back()' : 'index.html'}">Back To ${prevPage.includes('search.html?') ? 'search results' : 'Movies'}</a>
+  </div>
+
+  <div>
   <div class="details-top">
   <div>
   ${
@@ -146,6 +153,7 @@ const global = {
       .join(', ')}
   </div>
 </div>
+<div>
   `;
 
   document.querySelector('#movie-details').appendChild(div);
@@ -155,7 +163,6 @@ const global = {
 //displaying show details
   async function displayShowDetails ()  {
     const showId = new URLSearchParams(window.location.search).get('id');
-
     const show = await fetchAPIData(`tv/${showId}`);
     
     //overlay for background image
@@ -217,9 +224,7 @@ const global = {
   </div>
 </div>
   `;
-
-  document.querySelector('#show-details').appendChild(div);
-        
+  document.querySelector('#show-details').appendChild(div);   
   }
 
 function displayBackgroundImage(type, backgroundPath) {
@@ -277,7 +282,7 @@ async function search() {
     document.querySelector('#search-results').innerHTML = '';
     document.querySelector('#search-results-heading').innerHTML = '';
     document.querySelector('#pagination').innerHTML = '';
-  console.log(results);
+    window.scroll({top: 0, behavior: "smooth"})
 
     results.forEach((result) => {
       const div = document.createElement('div');
@@ -382,8 +387,11 @@ async function displaySlider() {
   
       document.querySelector('.swiper-wrapper').appendChild(div);
   
-      initSwiper();
+      
     });
+
+    initSwiper();
+    
   }
   
   function initSwiper() {
@@ -407,6 +415,11 @@ async function displaySlider() {
           slidesPerView: 4,
         },
       },
+        // Navigation arrows
+    navigation: {
+    nextEl: ".swiper-button-next",
+    prevEl: ".swiper-button-prev",
+  },
     });
   }
 
@@ -473,13 +486,12 @@ async function searchAPIData() {
     document.querySelector('.spinner').classList.remove('show');
   }
 
-  function showAlert(message, className = 'error') {
+  function showAlert(message) {
     const alertEl = document.createElement('div');
-    alertEl.classList.add('alert', className);
+    alertEl.classList.add('alert');
     alertEl.appendChild(document.createTextNode(message));
     document.querySelector('#alert').appendChild(alertEl);
-  
-    setTimeout(() => alertEl.remove(), 3000);
+
   }
   
 async function getAPIDetails() {
@@ -501,6 +513,12 @@ async function getAPIDetails() {
         console.error('Error fetching API key:', error);
         return null;
     }
+}
+
+async function loadFooter() {      
+            const response = await fetch('../layout/footer.html');           
+            const data = await response.text();
+            document.querySelector('footer').innerHTML = data;
 }
 
   // Init App
@@ -526,6 +544,7 @@ async function getAPIDetails() {
     }
   
     highlightActiveLink();
+    loadFooter();
   }
   
   document.addEventListener('DOMContentLoaded', init);
